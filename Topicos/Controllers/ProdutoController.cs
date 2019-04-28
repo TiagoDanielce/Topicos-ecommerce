@@ -1,9 +1,7 @@
 ﻿using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 using Topicos.Models;
@@ -38,12 +36,24 @@ namespace Topicos.Controllers
         {
             ViewBag.Admin = true;
             ViewBag.ExibeFooter = true;
+
             if (!string.IsNullOrEmpty(id))
             {
                 var produto = db.ProdutosDB.Find(p => p.Id == id).FirstOrDefault();
+
+                var dir = new DirectoryInfo(Server.MapPath("~/Images/Produtos/"));
+                FileInfo[] fileNames = dir.GetFiles("*.*");
+                List<string> items = new List<string>();
+                foreach (var file in fileNames)
+                {
+                    if (file.Name.Contains(id))
+                        items.Add(file.Name);
+                }
+                ViewBag.Imagens = items;
+
                 return View(produto);
             }
-            
+
             return RedirectToAction("Index", "Home"); ;
         }
 
@@ -111,6 +121,24 @@ namespace Topicos.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult BuscaImagens(string id)
+        {
+            var dir = new DirectoryInfo(Server.MapPath("~/Images/Produtos/"));
+            FileInfo[] fileNames = dir.GetFiles("*.*");
+            List<string> items = new List<string>();
+            foreach (var file in fileNames)
+            {
+                if (file.Name.Contains(id))
+                    items.Add(file.Name);
+            }
+            return View(items);
+        }
+        public FileResult Download(string ImageName)
+        {
+            var FileVirtualPath = "~/Images/Produtos/" + ImageName;
+            return File(FileVirtualPath, "application / force - download", Path.GetFileName(FileVirtualPath));
         }
     }
 }
