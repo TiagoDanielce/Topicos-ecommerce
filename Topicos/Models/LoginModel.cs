@@ -18,7 +18,7 @@ namespace Topicos.Models
         public bool ValidarUsuario()
         {
             ContextTopicos db = new ContextTopicos();
-            var usuario = db.UsuariosDB.Find(p => p.Email.ToLower().Equals(this.Usuario) && p.Senha.Equals(this.Senha)).FirstOrDefault();
+            var usuario = db.UsuariosDB.Find(p => p.Email.ToLower() == this.Usuario.ToLower() && p.Senha ==this.Senha).FirstOrDefault();
 
             if (usuario != null)
             {

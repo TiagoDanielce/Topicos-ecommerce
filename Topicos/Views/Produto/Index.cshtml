@@ -43,8 +43,6 @@
                     R$ @Html.DisplayFor(modelItem => item.Preco)
                 </td>
                 <td>
-                    @*@Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })*@
-                    @*@Html.ActionLink("Excluir", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })*@
                     @using (Html.BeginForm("Delete","Produto", method: FormMethod.Post))
                     {
                         <div class="form-actions">

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Topicos.Models;
+using Topicos.Models.Enums;
 
 namespace Topicos.Controllers
 {
@@ -17,9 +19,25 @@ namespace Topicos.Controllers
         {
             ViewBag.Admin = true;
             ViewBag.ExibeFooter = true;
+
+            if (db.UsuariosDB.Find(p=>true).Count() == 0)
+            {
+                var user = new UsuarioModel()
+                {
+                    Cpf = "03636132008",
+                    Email = "tiagodanielce@gmail.com",
+                    NomeCompleto = "Tiago Rodrigues Danielce",
+                    Telefone = "51994611521",
+                    Senha = "123456",
+                    Perfil = PerfilUsuario.Admin
+                };
+                db.UsuariosDB.InsertOne(user);
+            }
+            
             return View();
         }
 
+        [HttpPost]
         public ActionResult Login(LoginModel login, string ReturnUrl)
         {
             ViewBag.Admin = true;
@@ -34,12 +52,12 @@ namespace Topicos.Controllers
                         login.RegistrarLogin(HttpContext);
 
                         //verificar depois
-                        return Redirect(ReturnUrl ?? "~/Relatorio/Index");
+                        return Redirect("~/Home/Index");
                     }
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.Message = "Ocorreu um erro inesperado!";
+                    return View("Index");
                 }
             }
 
