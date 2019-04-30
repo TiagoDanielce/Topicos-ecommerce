@@ -17,6 +17,7 @@ namespace Topicos.Controllers
             ViewBag.Admin = true;
             ViewBag.ExibeFooter = true;
 
+            db.ProdutosDB.FindOneAndDelete(p => p.Titulo == null);
             var list = db.ProdutosDB.Find(p => true).ToList();
 
             List<CategoriasRetorno> categorias = new List<CategoriasRetorno>();

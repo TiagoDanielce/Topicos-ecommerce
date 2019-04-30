@@ -195,12 +195,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\Produtos\" />
-    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Views\Shared\Footer.cshtml" />
     <Content Include="Views\Shared\MainHeader.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

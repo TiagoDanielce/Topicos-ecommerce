@@ -1,0 +1,47 @@
+﻿@model Topicos.Models.UsuarioModel
+@{
+    Html.RenderPartial("MainHeader");
+}
+<div class="section">
+    <div class="container">
+        <div class="col-md-5 order-details">
+            <div class="section-title text-center">
+                <h3 class="title">Conecte-se</h3>
+            </div>
+            <div class="order-summary">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="email" placeholder="E-mail" required="required">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="senha" placeholder="Senha" required="required">
+                    </div>
+                    <button type="submit" class="primary-btn order-submit">Conectar</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-5 order-details">
+            <div class="section-title text-center">
+                <h3 class="title">Cadastre-se</h3>
+            </div>
+            <div class="order-summary">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="nomeCompleto" placeholder="Nome Completo" required="required" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="senha" placeholder="Senha" required="required" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="email" placeholder="E-mail" required="required" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="cpf" placeholder="Cpf" required="required" />
+                    </div>
+                    <button onclick="alert('funcionalidade será implementada em breve!')" type="submit" class="primary-btn order-submit">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

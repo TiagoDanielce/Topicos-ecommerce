@@ -15,11 +15,16 @@ namespace Topicos.Controllers
         // GET: Login
         public ActionResult Index()
         {
+            ViewBag.Admin = true;
+            ViewBag.ExibeFooter = true;
             return View();
         }
 
         public ActionResult Login(LoginModel login, string ReturnUrl)
         {
+            ViewBag.Admin = true;
+            ViewBag.ExibeFooter = true;
+
             if (ModelState.IsValid)
             {
                 try
@@ -43,6 +48,9 @@ namespace Topicos.Controllers
 
         public ActionResult LogOff()
         {
+            ViewBag.Admin = true;
+            ViewBag.ExibeFooter = true;
+
             FormsAuthentication.SignOut();
             Session.RemoveAll();
 

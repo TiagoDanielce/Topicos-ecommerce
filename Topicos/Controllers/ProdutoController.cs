@@ -73,72 +73,65 @@ namespace Topicos.Controllers
         [HttpPost]
         public ActionResult Edit(string id, ProdutoModel model, IEnumerable<HttpPostedFileBase> files)
         {
-            try
-            {
-                if (!string.IsNullOrEmpty(id))
-                {
-                    model.Id = id;
-                    var filter = Builders<ProdutoModel>.Filter.Eq(p => p.Id, id);
-                    db.ProdutosDB.ReplaceOne(filter, model);
-                }
-                else
-                    db.ProdutosDB.InsertOne(model);
+            ViewBag.Admin = true;
+            ViewBag.ExibeFooter = false;
 
-                var c = 1;
-                foreach (var file in files)
-                {
-                    if (file.ContentLength > 0)
+            if (ModelState.IsValid)
+                if (files.Count() > 0)
+                    try
                     {
-                        var fileName = model.Id + "_" + c + ".jpg";
-                        var path = Path.Combine(Server.MapPath(pathImages), fileName);
-                        file.SaveAs(path);
-                        c++;
-                    }
-                }
+                        if (!string.IsNullOrEmpty(id))
+                        {
+                            model.Id = id;
+                            var filter = Builders<ProdutoModel>.Filter.Eq(p => p.Id, id);
+                            db.ProdutosDB.ReplaceOne(filter, model);
+                        }
+                        else
+                            db.ProdutosDB.InsertOne(model);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                        var c = 1;
+                        foreach (var file in files)
+                        {
+                            if (file.ContentLength > 0)
+                            {
+                                var fileName = model.Id + "_" + c + ".jpg";
+                                var path = Path.Combine(Server.MapPath(pathImages), fileName);
+                                file.SaveAs(path);
+                                c++;
+                            }
+                        }
+                        return RedirectToAction("Index");
+                    }
+                    catch
+                    {
+                        return View(model);
+                    }
+
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult Delete(string id)
         {
+            ViewBag.Admin = true;
+            ViewBag.ExibeFooter = false;
+
             if (!string.IsNullOrEmpty(id))
             {
-                db.ProdutosDB.FindOneAndDelete(p => p.Id == id);
+                //Busca todos arquivos
+                var dir = new DirectoryInfo(Server.MapPath("~/Images/Produtos/"));
+                FileInfo[] fileNames = dir.GetFiles("*.*");
+                List<string> items = new List<string>();
 
                 //Exclui arquivos do produto
-                for (int i = 1; i <= 3; i++)
-                {
-                    var fileSalvo = Directory.GetFiles(pathImages, id + "_" + i + "*.*");
-                    foreach (var item in fileSalvo)
-                        System.IO.File.Delete(item);
-                }
+                foreach (var file in fileNames)
+                    if (file.Name.Contains(id))
+                        System.IO.File.Delete(file.Name);
+
+                db.ProdutosDB.FindOneAndDelete(p => p.Id == id);
             }
 
             return RedirectToAction(nameof(Index));
-        }
-
-        public ActionResult BuscaImagens(string id)
-        {
-            var dir = new DirectoryInfo(Server.MapPath("~/Images/Produtos/"));
-            FileInfo[] fileNames = dir.GetFiles("*.*");
-            List<string> items = new List<string>();
-            foreach (var file in fileNames)
-            {
-                if (file.Name.Contains(id))
-                    items.Add(file.Name);
-            }
-            return View(items);
-        }
-        public FileResult Download(string ImageName)
-        {
-            var FileVirtualPath = "~/Images/Produtos/" + ImageName;
-            return File(FileVirtualPath, "application / force - download", Path.GetFileName(FileVirtualPath));
         }
     }
 }

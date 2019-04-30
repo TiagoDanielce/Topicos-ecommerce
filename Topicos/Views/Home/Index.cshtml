@@ -49,8 +49,7 @@
                                     <div class="product-body">
                                         <p class="product-category">@item.Categoria</p>
                                         <h3 class="product-name">
-                                            @*<a href="~/Produto/Details">@item.Titulo</a>*@
-                                        @Html.ActionLink(item.Titulo, "Details", "Produto", new { id = item.Id }, null)
+                                        @Html.ActionLink(item.Titulo, "Details", "Produto", new { id = item.Id })
                                     </h3>
                                     <h4 class="product-price">R$ @item.Preco @*<del class="product-old-price">R$ @item.Preco</del>*@</h4>
                                     <div class="product-rating">
