@@ -8,7 +8,7 @@ using Topicos.Models.Enums;
 
 namespace Topicos.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         ContextTopicos db = new ContextTopicos();
 

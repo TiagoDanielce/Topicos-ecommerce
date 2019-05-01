@@ -10,7 +10,7 @@ using Topicos.Models.Enums;
 
 namespace Topicos.Controllers
 {
-    public class LoginController : Controller
+    public class LoginController : BaseController
     {
         ContextTopicos db = new ContextTopicos();
 
@@ -38,7 +38,7 @@ namespace Topicos.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LoginModel login, string ReturnUrl)
+        public ActionResult Login(LoginModel login)
         {
             ViewBag.Admin = true;
             ViewBag.ExibeFooter = true;
@@ -47,11 +47,18 @@ namespace Topicos.Controllers
             {
                 try
                 {
-                    if (login.ValidarUsuario())
-                    {
-                        login.RegistrarLogin(HttpContext);
+                    var usuario = db.UsuariosDB.Find(p => p.Email.ToLower() == login.Usuario.ToLower() && p.Senha == login.Senha).FirstOrDefault();
 
-                        //verificar depois
+                    if (usuario != null)
+                    {
+                        var user = new UsuarioLogado
+                        {
+                            Id = usuario.Id,
+                            Nome = usuario.NomeCompleto,
+                            Perfil = usuario.Perfil
+                        };
+                        HttpContext.Session["Usuario"] = user;
+
                         return Redirect("~/Home/Index");
                     }
                 }
@@ -60,7 +67,6 @@ namespace Topicos.Controllers
                     return View("Index");
                 }
             }
-
             return View("Index");
         }
 
@@ -69,7 +75,7 @@ namespace Topicos.Controllers
             ViewBag.Admin = true;
             ViewBag.ExibeFooter = true;
 
-            FormsAuthentication.SignOut();
+            //FormsAuthentication.SignOut();
             Session.RemoveAll();
 
             return View("Index");

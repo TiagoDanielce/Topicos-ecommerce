@@ -8,7 +8,7 @@ using Topicos.Models;
 
 namespace Topicos.Controllers
 {
-    public class ProdutoController : Controller
+    public class ProdutoController : BaseController
     {
         readonly ContextTopicos db = new ContextTopicos();
         //readonly string pathImages = "~/App_Data/Images/Produtos";
