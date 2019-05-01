@@ -25,7 +25,7 @@ namespace Topicos.Models
         public PerfilUsuario Perfil { get; set; }
 
         //[Required]
-        //[Display(Name = "Endereço")]
-        //public string Endereco { get; set; }
+        [Display(Name = "Endereço")]
+        public EnderecoModel Endereco { get; set; }
     }
 }
