@@ -134,6 +134,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CarrinhoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
@@ -151,6 +153,7 @@
     <Compile Include="Models\Enums\PerfilUsuario.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ProdutoModel.cs" />
+    <Compile Include="Models\UsuarioLogado.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Models\VendaItemModel.cs" />
     <Compile Include="Models\VendaModel.cs" />
@@ -201,6 +204,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\Produtos\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="Views\Carrinho\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -38,5 +38,14 @@ namespace Topicos.Models
                 return Usuarios;
             }
         }
+
+        public IMongoCollection<CarrinhoModel> CarrinhoDB
+        {
+            get
+            {
+                var Carrinhos = Database.GetCollection<CarrinhoModel>("Carrinhos");
+                return Carrinhos;
+            }
+        }
     }
 }
