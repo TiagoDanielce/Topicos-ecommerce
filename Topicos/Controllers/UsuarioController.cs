@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Topicos.Models;
+using Topicos.Models.Enums;
 
 namespace Topicos.Controllers
 {
@@ -14,7 +15,8 @@ namespace Topicos.Controllers
         // GET: Usuario
         public ActionResult Index()
         {
-            ViewBag.Admin = true;
+            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
+            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
             ViewBag.ExibeFooter = false;
 
             var list = db.UsuariosDB.Find(p => true).ToList();
@@ -24,8 +26,10 @@ namespace Topicos.Controllers
         // GET
         public ActionResult Edit(string id)
         {
-            ViewBag.Admin = true;
+            var user = HttpContext.Session["Usuario"] as UsuarioLogado;
+            ViewBag.Admin = user == null || user.Perfil == PerfilUsuario.Cliente ? false : true;
             ViewBag.ExibeFooter = false;
+
             var usuario = db.UsuariosDB.Find(p => p.Id == id).FirstOrDefault();
             if (!string.IsNullOrEmpty(id))
             {
@@ -38,7 +42,8 @@ namespace Topicos.Controllers
         [HttpPost]
         public ActionResult Edit(string id, UsuarioModel model)
         {
-            ViewBag.Admin = true;
+            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
+            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
             ViewBag.ExibeFooter = false;
 
             if (ModelState.IsValid)

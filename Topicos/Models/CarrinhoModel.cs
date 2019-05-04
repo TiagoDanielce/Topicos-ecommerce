@@ -6,11 +6,11 @@ namespace Topicos.Models
     {
         public CarrinhoModel()
         {
-            Produtos = new List<CarrinhoProdutoModel>();
+            Produtos = new List<CarrinhoItemModel>();
         }
 
         public string UsuarioId { get; set; }
 
-        public List<CarrinhoProdutoModel> Produtos { get; set; }
+        public List<CarrinhoItemModel> Produtos { get; set; }
     }
 }

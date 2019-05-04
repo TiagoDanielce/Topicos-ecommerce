@@ -10,7 +10,7 @@ namespace Topicos.Models
     {
         public VendaModel()
         {
-            VendaItens = new List<VendaItemModel>();
+            VendaItens = new List<CarrinhoItemModel>();
         }
 
         public string UsuarioId { get; set; }
@@ -21,6 +21,6 @@ namespace Topicos.Models
         [Display(Name = "Valor Total")]
         public decimal ValorTotal { get; set; }
 
-        public List<VendaItemModel> VendaItens { get; set; }
+        public List<CarrinhoItemModel> VendaItens { get; set; }
     }
 }

@@ -47,5 +47,14 @@ namespace Topicos.Models
                 return Carrinhos;
             }
         }
+
+        public IMongoCollection<VendaModel> VendaDB
+        {
+            get
+            {
+                var Vendas = Database.GetCollection<VendaModel>("Vendas");
+                return Vendas;
+            }
+        }
     }
 }

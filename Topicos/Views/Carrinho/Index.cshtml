@@ -1,0 +1,107 @@
+﻿@model  Topicos.Models.CarrinhoModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    Html.RenderPartial("MainHeader");
+}
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-7 order-details">
+                <div class="section-title text-center">
+                    <h3 class="title">Seu Carrinho</h3>
+                </div>
+                <div class="order-summary">
+                    @if (Model.Produtos.Count() > 0)
+                    {
+                        foreach (var item in Model.Produtos)
+                        {
+                            <div class="order-products">
+                                <div class="order-col">
+                                    <div>@item.Titulo</div>
+                                    <div>@item.Quantidade</div>
+                                    <div>R$ @item.PrecoUnitario</div>
+                                </div>
+                            </div>
+                        }
+                        <div class="order-col">
+                            <div><strong>TOTAL</strong></div>
+                            <div><strong class="order-total">$2940.00</strong></div>
+                        </div>
+                    }
+                    else
+                    {
+                        <p style="text-align:center;font-size:20px;">Seu carrinho está vazio</p>
+                        <br />
+                        <br />
+                    }
+                    @Html.ActionLink("Continuar Comprando", "Index", "Home", null, new { @class = "primary-btn" })
+                </div>
+            </div>
+            <!-- /Order Details -->
+            <!-- Order Details -->
+            <div class="col-md-4 order-details">
+                <div class="section-title text-center">
+                    <h3 class="title">Pagamento</h3>
+                </div>
+                <div class="order-summary">
+                    <div class="order-col">
+                        <div>Total em Produtos:</div>
+                        <div><strong>X</strong></div>
+                    </div>
+                    <div class="order-col">
+                        <div>Frete:</div>
+                        <div><strong>X</strong></div>
+                    </div>
+                    <div class="order-col">
+                        <div><strong>Valor Total</strong></div>
+                        <div><strong>X</strong></div>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <div class="input-radio">
+                        <input type="radio" name="payment" id="payment-1">
+                        <label for="payment-1">
+                            <span></span>
+                            Boleto
+                        </label>
+                        <div class="caption">
+                            <p>R$ </p>
+                        </div>
+                    </div>
+                    <div class="input-radio">
+                        <input type="radio" name="payment" id="payment-2">
+                        <label for="payment-2">
+                            <span></span>
+                            Cartão de Crédito
+                        </label>
+                        <div class="caption">
+                            <p>1x(R$ )</p>
+                            <p>2x(R$ )</p>
+                            <p>3x(R$ )</p>
+                            <p>4x(R$ )</p>
+                            <p>5x(R$ )</p>
+                            <p>6x(R$ )</p>
+                            <p>7x(R$ )</p>
+                            <p>8x(R$ )</p>
+                            <p>9x(R$ )</p>
+                            <p>10x(R$ )</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="primary-btn order-submit">Comprar</a>
+            </div>
+            <!-- /Order Details -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->

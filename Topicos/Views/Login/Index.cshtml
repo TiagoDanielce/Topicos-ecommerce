@@ -9,7 +9,8 @@
                 <h3 class="title">Conecte-se</h3>
             </div>
             <div class="order-summary">
-                <form action="Login" method="post">
+                @using (Html.BeginForm("Login", "Login", method: FormMethod.Post))
+                {
                     <div class="form-group">
                         <input type="text" class="form-control" name="usuario" placeholder="E-mail" required="required">
                     </div>
@@ -17,10 +18,10 @@
                         <input type="password" class="form-control" name="senha" placeholder="Senha" required="required">
                     </div>
                     <button type="submit" class="primary-btn order-submit">Conectar</button>
-                </form>
+                }
             </div>
         </div>
-        <div class="col-md-5 order-details">
+        <div class="col-md-5 order-details" style="margin-left:50px">
             <div class="section-title text-center">
                 <h3 class="title">Cadastre-se</h3>
             </div>

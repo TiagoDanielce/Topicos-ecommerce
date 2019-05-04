@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Topicos.Models;
+using Topicos.Models.Enums;
 
 namespace Topicos.Controllers
 {
@@ -16,7 +17,8 @@ namespace Topicos.Controllers
         // GET: Produto
         public ActionResult Index()
         {
-            ViewBag.Admin = true;
+            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
+            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
             ViewBag.ExibeFooter = false;
             //var x = new ProdutoModel()
             //{
@@ -34,7 +36,8 @@ namespace Topicos.Controllers
         // GET: Produto/Details/5
         public ActionResult Details(string id)
         {
-            ViewBag.Admin = true;
+            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
+            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
             ViewBag.ExibeFooter = true;
 
             if (!string.IsNullOrEmpty(id))
@@ -60,7 +63,8 @@ namespace Topicos.Controllers
         // GET: Produto/Edit/5
         public ActionResult Edit(string id)
         {
-            ViewBag.Admin = true;
+            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
+            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
             ViewBag.ExibeFooter = false;
             var produto = db.ProdutosDB.Find(p => p.Id == id).FirstOrDefault();
             if (!string.IsNullOrEmpty(id))
@@ -73,7 +77,8 @@ namespace Topicos.Controllers
         [HttpPost]
         public ActionResult Edit(string id, ProdutoModel model, IEnumerable<HttpPostedFileBase> files)
         {
-            ViewBag.Admin = true;
+            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
+            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
             ViewBag.ExibeFooter = false;
 
             if (ModelState.IsValid)
@@ -113,7 +118,8 @@ namespace Topicos.Controllers
         [HttpPost]
         public ActionResult Delete(string id)
         {
-            ViewBag.Admin = true;
+            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
+            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
             ViewBag.ExibeFooter = false;
 
             if (!string.IsNullOrEmpty(id))
