@@ -25,8 +25,8 @@
                         {
                             <div class="order-products">
                                 <div class="order-col">
-                                    <div>@item.Titulo</div>
-                                    <div>@item.Quantidade</div>
+                                    <div>(@(item.Quantidade)X) @item.Titulo</div>
+                                    @*<div>@item.Quantidade</div>*@
                                     <div>R$ @item.PrecoUnitario</div>
                                 </div>
                             </div>

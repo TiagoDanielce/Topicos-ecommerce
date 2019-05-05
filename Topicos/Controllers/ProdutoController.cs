@@ -51,6 +51,7 @@ namespace Topicos.Controllers
                 var dir = new DirectoryInfo(Server.MapPath("~/Images/Produtos/"));
                 FileInfo[] fileNames = dir.GetFiles("*.*");
                 List<string> items = new List<string>();
+                //busca imagens do item principal
                 foreach (var file in fileNames)
                 {
                     if (file.Name.Contains(id))
@@ -58,6 +59,14 @@ namespace Topicos.Controllers
                 }
                 ViewBag.Imagens = items;
 
+                //busca imagens dos itens relacionados
+                var relacionados = db.ProdutosDB.Find(p => p.Categoria == produto.Categoria && p.Id != produto.Id).Limit(4).ToList();
+                foreach (var rel in relacionados)
+                {
+                    var file = fileNames.Where(p => p.Name.Contains(rel.Id)).First();
+                    rel.Descricao = file.Name;
+                }
+                ViewBag.Relacionados = relacionados;
                 return View(produto);
             }
 

@@ -55,10 +55,10 @@
                                     <span class="qty-down">-</span>
                                 </div>
                             </div>
-                            <input type="hidden" name="id" value="@Model.Id"/>
+                            <input type="hidden" name="id" value="@Model.Id" />
                             <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Add Carrinho</button>
                         }
-                        </div>
+                    </div>
                     <br />
                     <ul class="product-links">
                         <li>Categoria:</li>
@@ -111,34 +111,39 @@
             </div>
 
             <!-- produtos -->
-            @* foreach(item in ViewBag.produtos) {*@
-            <div class="col-md-3 col-xs-6">
-                <div class="product">
-                    <div class="product-img">
-                        <img src="~/Images/Produtos/" alt="">
-                        <div class="product-label">
-                            <span class="sale">-30%</span>
+            @foreach (var item in ViewBag.Relacionados)
+            {
+                <div class="col-md-3 col-xs-6">
+                    <div class="product">
+                        <div class="product-img">
+                            <img src="~/Images/Produtos/@(item.Descricao)" alt="">
+                            <div class="product-label">
+                                @*<span class="sale">-30%</span>*@
+                            </div>
                         </div>
-                    </div>
-                    <div class="product-body">
-                        <p class="product-category">Categoria</p>
-                        <h3 class="product-name"><a href="#">Nome do Produto</a></h3>
-                        <h4 class="product-price">R$ 999,00 @*<del class="product-old-price">$990.00</del>*@</h4>
-                        <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
+                        <div class="product-body">
+                            <p class="product-category">@item.Categoria</p>
+                            <h3 class="product-name">
+                                <a href="@Url.Action("Details","Produto", new { id = item.Id})">@item.Titulo</a>
+                                @*<a href="#">@item.Titulo</a>*@
+                            </h3>
+                            <h4 class="product-price">R$ @item.Preco @*<del class="product-old-price">$990.00</del>*@</h4>
+                            <div class="product-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Add Carrinho</button>
+                        <div class="add-to-cart">
+                            <a href="@Url.Action("AddCarrinho","Carrinho", new { id = item.Id})" class="btn add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Add Carrinho</a>
+                            @*<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Add Carrinho</button>*@
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="clearfix visible-sm visible-xs"></div>
-            @* } *@
+                <div class="clearfix visible-sm visible-xs"></div>
+            }
             <!-- /produtos -->
         </div>
         <!-- /row -->
