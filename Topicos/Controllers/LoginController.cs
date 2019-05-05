@@ -17,7 +17,8 @@ namespace Topicos.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            ViewBag.Admin = true;
+            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
+            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
             ViewBag.ExibeFooter = true;
 
             if (db.UsuariosDB.Find(p=>true).Count() == 0)
@@ -58,7 +59,7 @@ namespace Topicos.Controllers
                             Perfil = usuario.Perfil
                         };
                         HttpContext.Session["Usuario"] = user;
-
+                        ViewBag.Admin = user.Perfil == PerfilUsuario.Cliente ? false : true;
                         return Redirect("~/Home/Index");
                     }
                 }

@@ -12,14 +12,15 @@ namespace Topicos.Controllers
     public class ProdutoController : BaseController
     {
         readonly ContextTopicos db = new ContextTopicos();
-        //readonly string pathImages = "~/App_Data/Images/Produtos";
         readonly string pathImages = "~/Images/Produtos";
+
         // GET: Produto
         public ActionResult Index()
         {
             var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
             ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
             ViewBag.ExibeFooter = false;
+
             //var x = new ProdutoModel()
             //{
             //    Categoria = CategoriaProduto.Hardware,
@@ -28,6 +29,9 @@ namespace Topicos.Controllers
             //    Preco = 20.00M
             //};
             //db.ProdutosDB.InsertOne(x);
+
+            if (usuario == null)
+                return Redirect("~/Login");
 
             var list = db.ProdutosDB.Find(p => true).ToList();
             return View(list);

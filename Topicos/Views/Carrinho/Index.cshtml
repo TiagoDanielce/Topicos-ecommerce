@@ -33,7 +33,7 @@
                         }
                         <div class="order-col">
                             <div><strong>TOTAL</strong></div>
-                            <div><strong class="order-total">$2940.00</strong></div>
+                            <div><strong class="order-total">@ViewBag.ValorTotal</strong></div>
                         </div>
                     }
                     else
@@ -54,49 +54,51 @@
                 <div class="order-summary">
                     <div class="order-col">
                         <div>Total em Produtos:</div>
-                        <div><strong>X</strong></div>
+                        <div><strong>R$ @ViewBag.ValorTotal</strong></div>
                     </div>
                     <div class="order-col">
                         <div>Frete:</div>
-                        <div><strong>X</strong></div>
-                    </div>
-                    <div class="order-col">
+                        <div><strong>R$ 20,00</strong></div>
+                    </div>                    <div class="order-col">
                         <div><strong>Valor Total</strong></div>
-                        <div><strong>X</strong></div>
+                        <div><strong>R$ @ViewBag.ValorTotal</strong></div>
                     </div>
                 </div>
-                <div class="payment-method">
-                    <div class="input-radio">
-                        <input type="radio" name="payment" id="payment-1">
-                        <label for="payment-1">
-                            <span></span>
-                            Boleto
-                        </label>
-                        <div class="caption">
-                            <p>R$ </p>
+                @if (Model.Produtos.Count() > 0)
+                {
+                    <div class="payment-method">
+                        <div class="input-radio">
+                            <input type="radio" name="payment" id="payment-1">
+                            <label for="payment-1">
+                                <span></span>
+                                Boleto
+                            </label>
+                            <div class="caption">
+                                <p>R$ @(ViewBag.ValorTotal + 20)</p>
+                            </div>
+                        </div>
+                        <div class="input-radio">
+                            <input type="radio" name="payment" id="payment-2">
+                            <label for="payment-2">
+                                <span></span>
+                                Cartão de Crédito
+                            </label>
+                            <div class="caption">
+                                <p>1x(R$ @(ViewBag.ValorTotal + 20))</p>
+                                <p>2x(R$ @((ViewBag.ValorTotal + 20) / 2))</p>
+                                <p>3x(R$ @((ViewBag.ValorTotal + 20) / 3))</p>
+                                <p>4x(R$ @((ViewBag.ValorTotal + 20) / 4))</p>
+                                <p>5x(R$ @((ViewBag.ValorTotal + 20) / 5))</p>
+                                <p>6x(R$ @((ViewBag.ValorTotal + 20) / 6))</p>
+                                <p>7x(R$ @((ViewBag.ValorTotal + 20) / 7))</p>
+                                <p>8x(R$ @((ViewBag.ValorTotal + 20) / 8))</p>
+                                <p>9x(R$ @((ViewBag.ValorTotal + 20) / 9))</p>
+                                <p>10x(R$ @((ViewBag.ValorTotal + 20) / 10))</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="input-radio">
-                        <input type="radio" name="payment" id="payment-2">
-                        <label for="payment-2">
-                            <span></span>
-                            Cartão de Crédito
-                        </label>
-                        <div class="caption">
-                            <p>1x(R$ )</p>
-                            <p>2x(R$ )</p>
-                            <p>3x(R$ )</p>
-                            <p>4x(R$ )</p>
-                            <p>5x(R$ )</p>
-                            <p>6x(R$ )</p>
-                            <p>7x(R$ )</p>
-                            <p>8x(R$ )</p>
-                            <p>9x(R$ )</p>
-                            <p>10x(R$ )</p>
-                        </div>
-                    </div>
-                </div>
-                <a href="#" class="primary-btn order-submit">Comprar</a>
+                    <a href="~/Carrinho/Comprar" class="primary-btn order-submit">Comprar</a>
+                }
             </div>
             <!-- /Order Details -->
         </div>

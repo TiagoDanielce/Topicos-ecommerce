@@ -26,14 +26,19 @@ namespace Topicos.Controllers
             if (list == null)
                 list = new CarrinhoModel();
 
+            ViewBag.ValorTotal = list.Produtos.Sum(p => p.PrecoUnitario * p.Quantidade);
 
             return View(list);
         }
 
-        public ActionResult Comprar(CarrinhoModel carrinho)
+        public ActionResult Comprar()
         {
             var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
             ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+
+            CarrinhoModel carrinho = null;
+            if (usuario != null)
+                carrinho = db.CarrinhoDB.Find(p => p.UsuarioId == usuario.Id).FirstOrDefault();
 
             if (carrinho != null)
             {
@@ -46,6 +51,8 @@ namespace Topicos.Controllers
                     VendaItens = carrinho.Produtos
                 };
                 db.VendaDB.InsertOne(model);
+                db.CarrinhoDB.DeleteMany(p => p.UsuarioId == usuario.Id);
+                return RedirectToAction("Index", "Home", null);
             }
 
             return View();
