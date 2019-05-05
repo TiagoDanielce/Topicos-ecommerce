@@ -14,9 +14,10 @@ namespace Topicos.Controllers
 
         public ActionResult Index(string filter)
         {
-            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
             ViewBag.ExibeFooter = true;
+
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
 
             db.ProdutosDB.FindOneAndDelete(p => p.Titulo == null);
             var list = db.ProdutosDB.Find(p => true).ToList();

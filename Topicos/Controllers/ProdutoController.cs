@@ -17,8 +17,8 @@ namespace Topicos.Controllers
         // GET: Produto
         public ActionResult Index()
         {
-            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = false;
 
             //var x = new ProdutoModel()
@@ -30,7 +30,7 @@ namespace Topicos.Controllers
             //};
             //db.ProdutosDB.InsertOne(x);
 
-            if (usuario == null)
+            if (CurrentUser == null)
                 return Redirect("~/Login");
 
             var list = db.ProdutosDB.Find(p => true).ToList();
@@ -40,8 +40,8 @@ namespace Topicos.Controllers
         // GET: Produto/Details/5
         public ActionResult Details(string id)
         {
-            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = true;
 
             if (!string.IsNullOrEmpty(id))
@@ -76,8 +76,8 @@ namespace Topicos.Controllers
         // GET: Produto/Edit/5
         public ActionResult Edit(string id)
         {
-            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = false;
             var produto = db.ProdutosDB.Find(p => p.Id == id).FirstOrDefault();
             if (!string.IsNullOrEmpty(id))
@@ -90,8 +90,8 @@ namespace Topicos.Controllers
         [HttpPost]
         public ActionResult Edit(string id, ProdutoModel model, IEnumerable<HttpPostedFileBase> files)
         {
-            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = false;
 
             if (ModelState.IsValid)
@@ -131,8 +131,8 @@ namespace Topicos.Controllers
         [HttpPost]
         public ActionResult Delete(string id)
         {
-            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = false;
 
             if (!string.IsNullOrEmpty(id))

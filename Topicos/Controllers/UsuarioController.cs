@@ -9,25 +9,40 @@ using Topicos.Models.Enums;
 
 namespace Topicos.Controllers
 {
-    public class UsuarioController : Controller
+    public class UsuarioController : BaseController
     {
         readonly ContextTopicos db = new ContextTopicos();
         // GET: Usuario
         public ActionResult Index()
         {
-            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = false;
 
             var list = db.UsuariosDB.Find(p => true).ToList();
             return View(list);
         }
 
+        public ActionResult Create(UsuarioModel usuario)
+        {
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
+            ViewBag.ExibeFooter = true;
+
+            if (usuario != null)
+            {
+                usuario.Perfil = PerfilUsuario.Cliente;
+                db.UsuariosDB.InsertOne(usuario);
+                //return RedirectToAction("Edit","Usuario",usuario.Id);
+            }
+            return RedirectToAction("Index", "Login", null);
+        }
+
         // GET
         public ActionResult Edit(string id)
         {
-            var user = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = user == null || user.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = false;
 
             var usuario = db.UsuariosDB.Find(p => p.Id == id).FirstOrDefault();
@@ -42,8 +57,8 @@ namespace Topicos.Controllers
         [HttpPost]
         public ActionResult Edit(string id, UsuarioModel model)
         {
-            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = false;
 
             if (ModelState.IsValid)

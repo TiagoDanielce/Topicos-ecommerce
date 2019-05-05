@@ -26,7 +26,8 @@
                 <h3 class="title">Cadastre-se</h3>
             </div>
             <div class="order-summary">
-                <form>
+                @using (Html.BeginForm("Create", "Usuario", method: FormMethod.Post))
+                {
                     <div class="form-group">
                         <input type="text" class="form-control" name="nomeCompleto" placeholder="Nome Completo" required="required" />
                     </div>
@@ -39,8 +40,9 @@
                     <div class="form-group">
                         <input type="text" class="form-control" name="cpf" placeholder="Cpf" required="required" />
                     </div>
-                    <button onclick="alert('funcionalidade será implementada em breve!')" type="submit" class="primary-btn order-submit">Cadastrar</button>
-                </form>
+                    <button type="submit" onsubmit="alert('Usuário cadastrado com sucesso!')" class="primary-btn order-submit">Cadastrar</button>
+                    @*<button onclick="alert('funcionalidade será implementada em breve!')" type="submit" class="primary-btn order-submit">Cadastrar</button>*@
+                }
             </div>
         </div>
 

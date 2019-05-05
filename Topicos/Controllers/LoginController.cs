@@ -17,8 +17,8 @@ namespace Topicos.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = true;
 
             if (db.UsuariosDB.Find(p=>true).Count() == 0)
@@ -42,6 +42,7 @@ namespace Topicos.Controllers
         public ActionResult Login(LoginModel login)
         {
             ViewBag.Admin = true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = true;
 
             if (ModelState.IsValid)
@@ -58,8 +59,10 @@ namespace Topicos.Controllers
                             Nome = usuario.NomeCompleto,
                             Perfil = usuario.Perfil
                         };
+                        Session.RemoveAll();
                         HttpContext.Session["Usuario"] = user;
                         ViewBag.Admin = user.Perfil == PerfilUsuario.Cliente ? false : true;
+                        ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
                         return Redirect("~/Home/Index");
                     }
                 }

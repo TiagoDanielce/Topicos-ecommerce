@@ -16,13 +16,13 @@ namespace Topicos.Controllers
         // GET: Carrinho
         public ActionResult Index()
         {
-            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = true;
 
-            if (usuario == null)
+            if (CurrentUser == null)
                 return Redirect("~/Login");
-            var list = db.CarrinhoDB.Find(p => true).FirstOrDefault(); //validar para id do usuario logado
+            var list = db.CarrinhoDB.Find(p => p.UsuarioId == CurrentUser.Id).FirstOrDefault(); 
             if (list == null)
                 list = new CarrinhoModel();
 
@@ -33,13 +33,13 @@ namespace Topicos.Controllers
 
         public ActionResult Comprar()
         {
-            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = true;
 
             CarrinhoModel carrinho = null;
-            if (usuario != null)
-                carrinho = db.CarrinhoDB.Find(p => p.UsuarioId == usuario.Id).FirstOrDefault();
+            if (CurrentUser != null)
+                carrinho = db.CarrinhoDB.Find(p => p.UsuarioId == CurrentUser.Id).FirstOrDefault();
 
             if (carrinho != null)
             {
@@ -52,7 +52,7 @@ namespace Topicos.Controllers
                     VendaItens = carrinho.Produtos
                 };
                 db.VendaDB.InsertOne(model);
-                db.CarrinhoDB.DeleteMany(p => p.UsuarioId == usuario.Id);
+                db.CarrinhoDB.DeleteMany(p => p.UsuarioId == CurrentUser.Id);
                 return RedirectToAction("Index", "Home", null);
             }
 
@@ -61,11 +61,11 @@ namespace Topicos.Controllers
 
         public ActionResult AddCarrinho(string id, int quantidade = 1)
         {
-            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
-            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
             ViewBag.ExibeFooter = true;
 
-            if (usuario == null)
+            if (CurrentUser == null)
                 return RedirectToAction("Index", "Login", null);
             else
             {
@@ -80,12 +80,12 @@ namespace Topicos.Controllers
                         Quantidade = quantidade
                     };
 
-                    var carrinho = db.CarrinhoDB.Find(p => p.UsuarioId == usuario.Id).FirstOrDefault();
+                    var carrinho = db.CarrinhoDB.Find(p => p.UsuarioId == CurrentUser.Id).FirstOrDefault();
                     if (carrinho == null)
                     {
                         carrinho = new CarrinhoModel()
                         {
-                            UsuarioId = usuario.Id,
+                            UsuarioId = CurrentUser.Id,
                             Produtos = new List<CarrinhoItemModel>()
                         };
                         carrinho.Produtos.Add(item);

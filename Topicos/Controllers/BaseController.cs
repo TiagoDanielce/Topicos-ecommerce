@@ -11,10 +11,6 @@ namespace Topicos.Controllers
             {
                 return (UsuarioLogado)HttpContext.Session["Usuario"];
             }
-            set
-            {
-                HttpContext.Session["Usuario"] = value;
-            }
         }
     }
 }
