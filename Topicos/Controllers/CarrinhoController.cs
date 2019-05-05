@@ -12,7 +12,7 @@ namespace Topicos.Controllers
     public class CarrinhoController : BaseController
     {
         readonly ContextTopicos db = new ContextTopicos();
-        
+
         // GET: Carrinho
         public ActionResult Index()
         {
@@ -35,6 +35,7 @@ namespace Topicos.Controllers
         {
             var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
             ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.ExibeFooter = true;
 
             CarrinhoModel carrinho = null;
             if (usuario != null)
@@ -55,6 +56,50 @@ namespace Topicos.Controllers
                 return RedirectToAction("Index", "Home", null);
             }
 
+            return View();
+        }
+
+        public ActionResult AddCarrinho(string id, int quantidade = 1)
+        {
+            var usuario = HttpContext.Session["Usuario"] as UsuarioLogado;
+            ViewBag.Admin = usuario == null || usuario.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.ExibeFooter = true;
+
+            if (usuario == null)
+                return RedirectToAction("Index", "Login", null);
+            else
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    var produto = db.ProdutosDB.Find(p => p.Id == id).FirstOrDefault();
+                    var item = new CarrinhoItemModel()
+                    {
+                        PrecoUnitario = produto.Preco,
+                        ProdutoId = produto.Id,
+                        Titulo = produto.Titulo,
+                        Quantidade = quantidade
+                    };
+
+                    var carrinho = db.CarrinhoDB.Find(p => p.UsuarioId == usuario.Id).FirstOrDefault();
+                    if (carrinho == null)
+                    {
+                        carrinho = new CarrinhoModel()
+                        {
+                            UsuarioId = usuario.Id,
+                            Produtos = new List<CarrinhoItemModel>()
+                        };
+                        carrinho.Produtos.Add(item);
+                        db.CarrinhoDB.InsertOne(carrinho);
+                    }
+                    else
+                    {
+                        carrinho.Produtos.Add(item);
+                        var filter = Builders<CarrinhoModel>.Filter.Eq(p => p.Id, carrinho.Id);
+                        db.CarrinhoDB.ReplaceOne(filter, carrinho);
+                    }
+                    return RedirectToAction("Index", "Carrinho", null);
+                }
+            }
             return View();
         }
     }
