@@ -45,16 +45,20 @@
                     <br />
                     <br />
                     <div class="add-to-cart">
-                        <div class="qty-label">
-                            Quantidade
-                            <div class="input-number">
-                                <input type="number" value="1">
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
+                        @using (Html.BeginForm("AddCarrinho", "Carrinho", method: FormMethod.Post))
+                        {
+                            <div class="qty-label">
+                                Quantidade
+                                <div class="input-number">
+                                    <input type="number" name="quantidade" value="1">
+                                    <span class="qty-up">+</span>
+                                    <span class="qty-down">-</span>
+                                </div>
                             </div>
+                            <input type="hidden" name="id" value="@Model.Id"/>
+                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Add Carrinho</button>
+                        }
                         </div>
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Add Carrinho</button>
-                    </div>
                     <br />
                     <ul class="product-links">
                         <li>Categoria:</li>
