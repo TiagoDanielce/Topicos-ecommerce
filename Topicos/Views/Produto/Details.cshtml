@@ -124,7 +124,7 @@
                         <div class="product-body">
                             <p class="product-category">@item.Categoria</p>
                             <h3 class="product-name">
-                                <a href="@Url.Action("Details","Produto", new { id = item.Id})">@item.Titulo</a>
+                                <a href="@Url.Action("Details","Produto", new { id = item.Id})" class="titulo" title="@item.Titulo">@item.Titulo</a>
                                 @*<a href="#">@item.Titulo</a>*@
                             </h3>
                             <h4 class="product-price">R$ @item.Preco @*<del class="product-old-price">$990.00</del>*@</h4>

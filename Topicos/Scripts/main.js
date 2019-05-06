@@ -125,16 +125,16 @@
 		})
 	});
 
-	var priceInputMax = document.getElementById('price-max'),
-			priceInputMin = document.getElementById('price-min');
+	//var priceInputMax = document.getElementById('price-max'),
+	//		priceInputMin = document.getElementById('price-min');
 
-	priceInputMax.addEventListener('change', function(){
-		updatePriceSlider($(this).parent() , this.value)
-	});
+	//priceInputMax.addEventListener('change', function(){
+	//	updatePriceSlider($(this).parent() , this.value)
+	//});
 
-	priceInputMin.addEventListener('change', function(){
-		updatePriceSlider($(this).parent() , this.value)
-	});
+	//priceInputMin.addEventListener('change', function(){
+	//	updatePriceSlider($(this).parent() , this.value)
+	//});
 
 	function updatePriceSlider(elem , value) {
 		if ( elem.hasClass('price-min') ) {
@@ -163,6 +163,12 @@
 			var value = values[handle];
 			handle ? priceInputMax.value = value : priceInputMin.value = value
 		});
-	}
+    }
+
+    // Limit Characters
+    var titulos = document.getElementsByClassName('titulo');
+    for (let item of titulos) {
+        item.innerHTML = item.innerHTML.substring(0, 25);
+    }
 
 })(jQuery);
