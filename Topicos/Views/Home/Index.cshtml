@@ -16,10 +16,8 @@
                         @foreach (var item in ViewBag.Categorias)
                         {
                             <div class="input-checkbox">
-                                <input type="checkbox" id="@item.Nome">
                                 <label for="@item.Nome">
-                                    <span></span>
-                                    @item.Nome
+                                    <a href="@Url.Action("Index","Home", new { categoria = item.Categoria})"> @item.Nome</a>
                                     <small>(@item.Qtde)</small>
                                 </label>
                             </div>

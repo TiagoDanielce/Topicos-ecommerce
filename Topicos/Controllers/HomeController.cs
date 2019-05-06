@@ -12,7 +12,7 @@ namespace Topicos.Controllers
     {
         ContextTopicos db = new ContextTopicos();
 
-        public ActionResult Index(string filter)
+        public ActionResult Index(string filter, CategoriaProduto? categoria)
         {
             ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
             ViewBag.ExibeFooter = true;
@@ -28,13 +28,15 @@ namespace Topicos.Controllers
             foreach (var item in cat)
             {
                 var c = list.Where(p => p.Categoria == item).Count();
-                categorias.Add(new CategoriasRetorno { Nome = item.ToString().ToUpper(), Qtde = c });
+                categorias.Add(new CategoriasRetorno { Nome = item.ToString().ToUpper(), Qtde = c , Categoria = item});
             }
 
             ViewBag.Categorias = categorias;
             if (!string.IsNullOrEmpty(filter))
                 list = list.Where(p => p.Titulo.ToLower().Contains(filter.ToLower())).ToList();
 
+            if (categoria != null)
+                list = list.Where(p => p.Categoria == categoria).ToList();
             return View(list);
         }
 
