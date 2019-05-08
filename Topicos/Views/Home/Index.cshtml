@@ -31,6 +31,15 @@
                 <div class="row">
                     @if (Model.Count() > 0)
                     {
+                        if (ViewBag.User == "Bem Vindo")
+                        {
+                            <div>
+                                @foreach (var vend in ViewBag.Vendas)
+                                {
+                                    @vend; <br/>
+                                }
+                            </div>
+                        }
                         foreach (var item in Model)
                         {
                             <div class="col-md-4 col-xs-6">
@@ -62,12 +71,14 @@
                                 </div>
                             </div>
                             @*<div class="clearfix visible-sm visible-xs"></div>*@
-                        }
+                            }
+                        
                     }
                     else
                     {
                         <p>Nenhum Produto encontrado!</p>
                     }
+
                     @*<div class="clearfix visible-lg visible-md"></div>*@
                 </div>
             </div>

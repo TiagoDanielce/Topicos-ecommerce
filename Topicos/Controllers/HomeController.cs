@@ -37,7 +37,18 @@ namespace Topicos.Controllers
 
             if (categoria != null)
                 list = list.Where(p => p.Categoria == categoria).ToList();
+
+            List<VendaModel> vendasitens = new List<VendaModel>();
+
+            if (CurrentUser != null)
+            {
+                var vendai = db.VendaDB.Find(p => p.UsuarioId == CurrentUser.Id.ToString()).ToList();
+
+                ViewBag.Vendas = vendai.SelectMany(p => p.VendaItens.Select(x => x.ProdutoId).ToList()).ToList();
+            }
+
             return View(list);
+
         }
 
     }
