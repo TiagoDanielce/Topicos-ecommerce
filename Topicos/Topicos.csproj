@@ -211,8 +211,8 @@
     <Content Include="Views\Shared\MainHeader.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
-    <Content Include="Views\Usuario\Edit.cshtml" />
     <Content Include="Views\Carrinho\Index.cshtml" />
+    <Content Include="Views\Usuario\Edit.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

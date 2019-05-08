@@ -76,5 +76,18 @@ namespace Topicos.Controllers
             }
             return View(model);
         }
+
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            ViewBag.Admin = CurrentUser == null || CurrentUser.Perfil == PerfilUsuario.Cliente ? false : true;
+            ViewBag.User = CurrentUser == null ? "Logar" : "Bem Vindo";
+            ViewBag.ExibeFooter = false;
+
+            if (!string.IsNullOrEmpty(id))
+                db.UsuariosDB.FindOneAndDelete(p => p.Id == id);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
