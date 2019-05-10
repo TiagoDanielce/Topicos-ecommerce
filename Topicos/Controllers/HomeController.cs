@@ -38,17 +38,59 @@ namespace Topicos.Controllers
             if (categoria != null)
                 list = list.Where(p => p.Categoria == categoria).ToList();
 
-            List<VendaModel> vendasitens = new List<VendaModel>();
 
             if (CurrentUser != null)
             {
                 var vendai = db.VendaDB.Find(p => p.UsuarioId == CurrentUser.Id.ToString()).ToList();
 
                 ViewBag.Vendas = vendai.SelectMany(p => p.VendaItens.Select(x => x.ProdutoId).ToList()).ToList();
+
+                int totalvendas = vendai.SelectMany(p => p.VendaItens.Select(x => x.ProdutoId).ToList()).ToList().Count();
+                
+                String[,] maisvendido = new String[totalvendas, 2];
+
+                int contador = 0;
+
+                String[] produtos = new String[totalvendas];
+                    
+
+                foreach (var item in ViewBag.Vendas)
+                {
+                    produtos[contador] = item;
+                    contador++;
+                }
+
+                contador = 0;
+                //Teste para verificar o total de venda de cada produto
+                for (int i = 0; i < totalvendas; i++)
+                {
+                    for (int j = 0; j < totalvendas; j++)
+                    {
+                        if (produtos[i] == produtos[j])
+                        {
+                            contador++;
+                        }
+                    }
+                    maisvendido[i, 0] = produtos[i];
+                    maisvendido[i, 1] = contador.ToString();
+                    contador = 0;
+                }
+
+                int cont = int.Parse(maisvendido[0,1]);
+
+                ViewBag.Vendas = maisvendido[0, 0];
+                //Teste para ver o produto mais vendido
+                for (int i = 0; i < maisvendido.Length/2; i++)
+                {
+                    if (int.Parse(maisvendido[i, 1]) > cont)
+                    {
+                        ViewBag.Vendas = maisvendido[i,0];
+                    }
+                }
+
             }
 
             return View(list);
-
         }
 
     }

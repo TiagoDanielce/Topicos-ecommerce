@@ -34,10 +34,7 @@
                         if (ViewBag.User == "Bem Vindo")
                         {
                             <div>
-                                @foreach (var vend in ViewBag.Vendas)
-                                {
-                                    @vend; <br/>
-                                }
+                                @ViewBag.Vendas
                             </div>
                         }
                         foreach (var item in Model)
