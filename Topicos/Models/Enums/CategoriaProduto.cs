@@ -4,9 +4,15 @@ namespace Topicos.Models.Enums
 {
     public enum CategoriaProduto
     {
-        [Description("Hardware")]
-        Hardware = 0,
-        [Description("Periféricos")]
-        Periferico = 1
+        [Description("Weiss")]
+        Weiss = 0,
+        [Description("IPA")]
+        Ipa = 1,
+        [Description("APA")]
+        Apa = 2,
+        [Description("Pilsen")]
+        Pilsen = 3,
+        [Description("Lager")]
+        Lager = 4
     }
 }

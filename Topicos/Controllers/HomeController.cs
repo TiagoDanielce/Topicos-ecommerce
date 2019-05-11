@@ -28,7 +28,7 @@ namespace Topicos.Controllers
             foreach (var item in cat)
             {
                 var c = list.Where(p => p.Categoria == item).Count();
-                categorias.Add(new CategoriasRetorno { Nome = item.ToString().ToUpper(), Qtde = c , Categoria = item});
+                categorias.Add(new CategoriasRetorno { Nome = item.ToString().ToUpper(), Qtde = c, Categoria = item });
             }
 
             ViewBag.Categorias = categorias;
@@ -43,55 +43,64 @@ namespace Topicos.Controllers
             {
                 var vendai = db.VendaDB.Find(p => p.UsuarioId == CurrentUser.Id.ToString()).ToList();
 
-                ViewBag.Vendas = vendai.SelectMany(p => p.VendaItens.Select(x => x.ProdutoId).ToList()).ToList();
-
-                int totalvendas = vendai.SelectMany(p => p.VendaItens.Select(x => x.ProdutoId).ToList()).ToList().Count();
-                
-                String[,] maisvendido = new String[totalvendas, 2];
-
-                int contador = 0;
-
-                String[] produtos = new String[totalvendas];
-                    
-
-                foreach (var item in ViewBag.Vendas)
+                if (vendai != null)
                 {
-                    produtos[contador] = item;
-                    contador++;
-                }
+                    ViewBag.Vendas = vendai.SelectMany(p => p.VendaItens.Select(x => x.ProdutoId).ToList()).ToList();
 
-                contador = 0;
-                //Teste para verificar o total de venda de cada produto
-                for (int i = 0; i < totalvendas; i++)
-                {
-                    for (int j = 0; j < totalvendas; j++)
+                    int totalvendas = vendai.SelectMany(p => p.VendaItens.Select(x => x.ProdutoId).ToList()).ToList().Count();
+
+                    String[,] maisvendido = new String[totalvendas, 2];
+
+                    int contador = 0;
+
+                    String[] produtos = new String[totalvendas];
+
+
+                    foreach (var item in ViewBag.Vendas)
                     {
-                        if (produtos[i] == produtos[j])
+                        produtos[contador] = item;
+                        contador++;
+                    }
+
+                    contador = 0;
+                    //Teste para verificar o total de venda de cada produto
+                    for (int i = 0; i < totalvendas; i++)
+                    {
+                        for (int j = 0; j < totalvendas; j++)
                         {
-                            contador++;
+                            if (produtos[i] == produtos[j])
+                            {
+                                contador++;
+                            }
+                        }
+                        maisvendido[i, 0] = produtos[i];
+                        maisvendido[i, 1] = contador.ToString();
+                        contador = 0;
+                    }
+
+                    int cont = int.Parse(maisvendido[0, 1]);
+
+                    ViewBag.Vendas = maisvendido[0, 0];
+                    //Teste para ver o produto mais vendido
+                    for (int i = 0; i < maisvendido.Length / 2; i++)
+                    {
+                        if (int.Parse(maisvendido[i, 1]) > cont)
+                        {
+                            ViewBag.Vendas = maisvendido[i, 0];
                         }
                     }
-                    maisvendido[i, 0] = produtos[i];
-                    maisvendido[i, 1] = contador.ToString();
-                    contador = 0;
-                }
-
-                int cont = int.Parse(maisvendido[0,1]);
-
-                ViewBag.Vendas = maisvendido[0, 0];
-                //Teste para ver o produto mais vendido
-                for (int i = 0; i < maisvendido.Length/2; i++)
-                {
-                    if (int.Parse(maisvendido[i, 1]) > cont)
+                    foreach (var item in list)
                     {
-                        ViewBag.Vendas = maisvendido[i,0];
+                        if (item.Id == ViewBag.Vendas)
+                        {
+                            ViewBag.Categoria = item.Categoria;
+                            ViewBag.Nome = item.Titulo;
+                            break;
+                        }
                     }
                 }
-
             }
-
             return View(list);
         }
-
     }
 }
