@@ -28,43 +28,29 @@
             <!-- /ASIDE -->
             <!-- STORE -->
             <div id="store" class="col-md-9">
-                <div class="row">
-                    @if (Model.Count() > 0)
-                    {
-                        if (ViewBag.User == "Bem Vindo")
+                @if (Model.Count() > 0)
+                {
+                    <div class="row">
+                        @if (ViewBag.User == "Bem Vindo")
                         {
                             <div>
-                                <h4>Sugestões Porque você comprou @ViewBag.Nome</h4>
+                                @if (ViewBag.Vendas != null)
+                                {
+                                    <h4>Sugestões exclusivas para você.</h4>
+                                }
                                 @{int cont = 0;
                                     foreach (var item in Model)
                                     {
                                         if (item.Id != ViewBag.Vendas && item.Categoria == ViewBag.Categoria && cont < 2)
                                         {
                                             <div class="col-md-4 col-xs-6">
-                                                <div class="product">
-                                                    <div class="product-img">
-                                                        <img src="~/Images/Produtos/@(item.Id)_1.jpg" alt="" />
-                                                        <div class="product-label">
-                                                            @*<span class="sale">-30%</span>*@
-                                                            <span class="new">NEW</span>
-                                                        </div>
+                                                <div class="shop">
+                                                    <div class="shop-img">
+                                                        <img src="~/Images/Produtos/@(item.Id)_1.jpg" alt="">
                                                     </div>
-                                                    <div class="product-body">
-                                                        <p class="product-category">@item.Categoria</p>
-                                                        <h3 class="product-name">
-                                                            @Html.ActionLink(item.Titulo, "Details", "Produto", new { id = item.Id }, new { @class = "titulo", title = item.Titulo })
-                                                        </h3>
-                                                        <h4 class="product-price">R$ @item.Preco @*<del class="product-old-price">R$ @item.Preco</del>*@</h4>
-                                                        <div class="product-rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="add-to-cart">
-                                                        <a href="@Url.Action("AddCarrinho", "Carrinho", new { id = item.Id })" class="btn add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Add Carrinho</a>
+                                                    <div class="shop-body">
+                                                        <h3>@item.Titulo<br>@item.Categoria</h3>
+                                                        <a href="@Url.Action("Details", "Produto", new { id = item.Id })" class="cta-btn">Compre Já <i class="fa fa-arrow-circle-right"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -75,8 +61,11 @@
 
                             </div>
                         }
-                        <h2></h2>
-                        foreach (var item in Model)
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">
+                        @foreach (var item in Model)
                         {
                             <div class="col-md-4 col-xs-6">
                                 <div class="product">
@@ -106,17 +95,13 @@
                                     </div>
                                 </div>
                             </div>
-                            @*<div class="clearfix visible-sm visible-xs"></div>*@
                         }
-
-                    }
-                    else
-                    {
-                        <p>Nenhum Produto encontrado!</p>
-                    }
-
-                    @*<div class="clearfix visible-lg visible-md"></div>*@
-                </div>
+                    </div>
+                }
+                else
+                {
+                    <p>Nenhum Produto encontrado!</p>
+                }
             </div>
             <!-- /STORE -->
         </div>
